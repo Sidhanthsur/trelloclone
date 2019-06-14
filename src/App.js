@@ -71,6 +71,35 @@ function App() {
       console.log(error)
     }
   }
+
+  var onCardMoved = async (cardId, sourceLaneId, targetLaneId, position, cardDetails) => {
+    try {
+      let doc = await db.get('personal')
+      if (doc) {
+        let localData = doc
+        let lanes = doc.lanes
+        // remove the card from the source lane
+        lanes.forEach((lane) => {
+          if (lane.id === sourceLaneId) {
+            let tempCardArray = lane.cards.filter((card) => card.id !== cardId)
+            console.log(tempCardArray)
+            lane.cards = tempCardArray
+          }
+        })
+        // add the card to target
+        lanes.forEach((lane) => {
+          if (lane.id === targetLaneId) {
+            lane.cards.push(cardDetails)
+          }
+        })
+        console.log(lanes)
+
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="App">
      
@@ -80,6 +109,7 @@ function App() {
       editable
       onLaneAdd={onLaneAdded}
       onCardAdd={onCardAdded}
+      handleDragEnd={onCardMoved}
       data={data} />
     </div>
   );
