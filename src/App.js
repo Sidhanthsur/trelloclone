@@ -92,6 +92,7 @@ function App() {
             lane.cards.push(cardDetails)
           }
         })
+        //final
         console.log(lanes)
 
       }
