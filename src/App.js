@@ -93,7 +93,14 @@ function App() {
           }
         })
         //final
-        console.log(lanes)
+        localData.lanes = lanes
+        
+        let localObject = Object.assign({}, localData, {_rev: doc._rev})
+        setData(localObject)
+        
+        let response = await db.put(localObject)
+        
+        console.log(response)
 
       }
 
@@ -109,7 +116,7 @@ function App() {
       canAddLanes
       editable
       onLaneAdd={onLaneAdded}
-      onCardAdd={onCardAdded}
+     // onCardAdd={onCardAdded}
       handleDragEnd={onCardMoved}
       data={data} />
     </div>
