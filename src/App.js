@@ -49,6 +49,28 @@ function App() {
     }
 
   }
+
+  var onCardAdded = async (card, laneId) => {
+    try {
+      let doc = await db.get('personal')
+      if (doc) {
+        let localData = doc
+        localData.lanes.forEach((lane, key) => {
+          console.log(lane) 
+          if (lane.id === laneId) {
+            lane.cards.push(card)
+          }
+        })
+        let localObject = Object.assign({}, localData, {_rev: doc._rev})
+        let response = await db.put(localObject)
+        console.log(response)
+        
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="App">
      
@@ -57,7 +79,7 @@ function App() {
       canAddLanes
       editable
       onLaneAdd={onLaneAdded}
-      onCardAdd={(card, laneid) => console.log(laneid)}
+      onCardAdd={onCardAdded}
       data={data} />
     </div>
   );
