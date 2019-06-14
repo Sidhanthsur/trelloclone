@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createStore } from 'redux';
 import logo from './logo.svg';
 import './App.css';
 import Board from './Resources/react-trello-master/src'
@@ -11,14 +12,10 @@ const initialData = {
 
 
 
-
-var onclickof = () => {
-  
-}
-
 function App() {
 
   const [data, setData] = useState(initialData)
+
   var initializeDb = () => {
     db.put(initialData)
     .then((data) => console.log(data))
@@ -99,9 +96,6 @@ function App() {
         setData(localObject)
         
         let response = await db.put(localObject)
-        
-        console.log(response)
-
       }
 
     } catch (error) {
@@ -116,7 +110,7 @@ function App() {
       canAddLanes
       editable
       onLaneAdd={onLaneAdded}
-     // onCardAdd={onCardAdded}
+      onCardAdd={onCardAdded}
       handleDragEnd={onCardMoved}
       data={data} />
     </div>
