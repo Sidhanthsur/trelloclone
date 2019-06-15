@@ -5,6 +5,7 @@ import './App.css';
 import Board from './Resources/react-trello-master/src'
 import PouchDB from 'pouchdb-browser'
 var db = new PouchDB('zoomrx');
+var _ = require('lodash')
 const initialData = {
   _id: 'personal',
   lanes: []
@@ -102,6 +103,34 @@ function App() {
       console.log(error)
     }
   }
+
+  var onCardDelete = async (cardid, laneid) => {
+    try {
+      let doc = await db.get('personal')
+      if (doc) {
+        let localData = doc
+        let lanes = doc.lanes
+        lanes.forEach((lane) => {
+          if (lane.id === laneid) {
+            let newCardArray = lane.cards.filter((card) => card.id !== cardid)
+            lane.cards = newCardArray
+          }
+        })
+        localData.lanes = lanes
+        
+        let localObject = Object.assign({}, localData, {_rev: doc._rev})
+
+         setData(localObject)
+        
+        let response = await db.put(localObject)
+        console.log(response)
+       
+      }
+
+    } catch(error) {
+      console.error(error)
+    }
+  }
   return (
     <div className="App">
      
@@ -111,6 +140,7 @@ function App() {
       editable
       onLaneAdd={onLaneAdded}
       onCardAdd={onCardAdded}
+      onCardDelete={onCardDelete}
       handleDragEnd={onCardMoved}
       data={data} />
     </div>
