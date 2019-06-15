@@ -12,6 +12,7 @@ import Popover from '@terebentina/react-popover'
 import Loader from './Loader'
 import Card from './Card'
 import NewCard from './NewCard'
+import { Button } from 'reactstrap';
 import {AddCardLink, LaneFooter, LaneHeader, RightContent, ScrollableLane, Section, Title} from '../styles/Base'
 import Modal from '@material-ui/core/Modal';
 
@@ -228,17 +229,18 @@ class Lane extends Component {
 
   laneMenu = () => {
     return (
-      <Popover className="menu" position="bottom" trigger={<MenuButton>⋮</MenuButton>}>
-        <LaneMenuHeader>
-          <LaneMenuTitle>Lane actions</LaneMenuTitle>
-          <DeleteWrapper>
-            <GenDelButton>&#10006;</GenDelButton>
-          </DeleteWrapper>
-        </LaneMenuHeader>
-        <LaneMenuContent>
-          <LaneMenuItem onClick={this.removeLane}>Delete Lane...</LaneMenuItem>
-        </LaneMenuContent>
-      </Popover>
+      // <Popover className="menu" position="bottom" trigger={<MenuButton>fmfd</MenuButton>}>
+      //   <LaneMenuHeader>
+      //     <LaneMenuTitle>Lane actions</LaneMenuTitle>
+      //     <DeleteWrapper>
+      //       <GenDelButton>&#10006;</GenDelButton>
+      //     </DeleteWrapper>
+      //   </LaneMenuHeader>
+      //   <LaneMenuContent>
+      //     <LaneMenuItem onClick={this.removeLane}>Delete Lane...</LaneMenuItem>
+      //   </LaneMenuContent>
+      // </Popover>
+      <Button color="danger" onClick={() => this.props.removeLane(this.props.id)}> Delete </Button>
     )
   }
 
@@ -257,7 +259,7 @@ class Lane extends Component {
               <span style={labelStyle}>{label}</span>
             </RightContent>
           )}
-          {canAddLanes && this.laneMenu()}
+          {this.laneMenu()}
         </LaneHeader>
       )
     }

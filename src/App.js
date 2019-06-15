@@ -131,6 +131,24 @@ function App() {
       console.error(error)
     }
   }
+  var removeLane = async (laneid) => {
+    try {
+      let doc = await db.get('personal')
+      if (doc) {
+        let localData = doc
+        let lanes = doc.lanes
+        var newLanes = lanes.filter((lane) => lane.id !== laneid)
+        localData.lanes = newLanes
+        let localObject = Object.assign({}, localData, {_rev: doc._rev})
+        setData(localObject)
+        let response = await db.put(localObject)
+
+      }
+    }
+    catch (error) {
+
+    }
+  }
   return (
     <div className="App">
      
@@ -142,6 +160,7 @@ function App() {
       onCardAdd={onCardAdded}
       onCardDelete={onCardDelete}
       handleDragEnd={onCardMoved}
+      removeLane={removeLane}
       data={data} />
     </div>
   );

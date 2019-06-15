@@ -146,7 +146,8 @@ class BoardContainer extends Component {
       'addLaneTitle',
       'addCardTitle',
       'newLaneTemplate',
-      'newCardTemplate'
+      'newCardTemplate',
+      'removeLane'
     ])
 
     return (
@@ -162,12 +163,13 @@ class BoardContainer extends Component {
           getChildPayload={index => this.getLaneDetails(index)}
           groupName={this.groupName}>
           {reducerData.lanes.map((lane, index) => {
-            const {id, droppable, ...otherProps} = lane
+            const {id, droppable, removeLane, ...otherProps} = lane
             const laneToRender = (
               <Lane
                 key={id}
                 boardId={this.groupName}
                 id={id}
+                removeLane={removeLane}
                 getCardDetails={this.getCardDetails}
                 index={index}
                 droppable={droppable === undefined ? true : droppable}
